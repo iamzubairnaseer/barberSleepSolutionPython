@@ -21,7 +21,9 @@ def barber_thread():
             sleep.acquire()
         barber.release()
         ready_for_haircut.acquire()
+        time.sleep(1)
         cutHair()
+        time.sleep(2)
 
 def customer_thread():
     global chairs
@@ -32,13 +34,11 @@ def customer_thread():
     if(customers - 1 < chairs):
         customers += 1
         if(customers == 1):
-            print("first customer comes in, awaking barber")
-            print("Total: {}\nWaiting: {}".format(customers,customers-1))
+            print("first customer comes in, awaking barber\nTotal: {}\nWaiting: {}".format(customers,customers-1))
             mutex.release()
             sleep.release()
         else:
-            print("\nnew customer entered, total customers are now: {}".format(customers))
-            print("Total: {}\nWaiting: {}".format(customers,customers-1))
+            print("\nnew customer entered, total customers are now: {}\nTotal: {}\nWaiting: {}".format(customers,customers,customers-1))
             mutex.release()
         barber.acquire()
         working+=1
@@ -55,21 +55,21 @@ def cutHair():
     global customers
     
     print("\ncutting customer{} hair".format(working))
+    time.sleep(2)
     mutex.acquire()
     customers -= 1
-    print("\nCustomer{} exited barber room".format(working))
-    print("Total/Waiting: {}".format(customers))
+    print("\nCustomer{} exited barber room\nTotal/Waiting: {}".format(working,customers))
     mutex.release()
 
 def customerEntry():
     for i in range(10):
         cutomerEntryThread = threading.Thread(target=customer_thread)        
         cutomerEntryThread.start()
-
-EntryThread = threading.Thread(target=customerEntry)
-EntryThread.start()
-EntryThread.join()
+        time.sleep(1)
 
 barberWorkThread = threading.Thread(target=barber_thread)
 barberWorkThread.start()
+
+EntryThread = threading.Thread(target=customerEntry)
+EntryThread.start()
 
