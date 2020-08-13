@@ -1,4 +1,4 @@
-# barberSleepSolutionPython
+# sleepingBarberSolutionPython
 Barber shop consists of a waiting room with 'n' chairs, and a barber room
 with one barber chair.
 1. If there are no customers to be served the barber goes to sleep.
